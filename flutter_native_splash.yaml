@@ -1,0 +1,12 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/app_icons/playstore.png"
+  branding: "assets/app_icons/playstore.png"
+  color_dark: "#1E40AF"
+  image_dark: "assets/app_icons/playstore.png"
+
+  android_12:
+    image: "assets/app_icons/playstore.png"
+    icon_background_color: "#FFFFFF"
+    image_dark: "assets/app_icons/playstore.png"
+    icon_background_color_dark: "#1E40AF"

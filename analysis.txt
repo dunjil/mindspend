@@ -1,0 +1,38 @@
+Analyzing mindspend...                                          
+
+   info • 'Table.fromTextArray' is deprecated and shouldn't be used. Use TableHelper.fromTextArray() instead • lib/core/services/export_service.dart:61:13 • deprecated_member_use
+  error • Target of URI doesn't exist: '../../../core/navigation/main_navigation.dart' • lib/features/auth/presentation/controllers/auth_controller.dart:5:8 • uri_does_not_exist
+  error • The method 'init' isn't defined for the type 'AuthRepository' • lib/features/auth/presentation/controllers/auth_controller.dart:18:21 • undefined_method
+  error • A value of type 'User?' can't be assigned to a variable of type 'UserModel?' • lib/features/auth/presentation/controllers/auth_controller.dart:22:27 • invalid_assignment
+  error • The name 'MainNavigation' isn't a class • lib/features/auth/presentation/controllers/auth_controller.dart:38:30 • creation_with_non_type
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/presentation/controllers/auth_controller.dart:45:37 • deprecated_member_use
+  error • The name 'MainNavigation' isn't a class • lib/features/auth/presentation/controllers/auth_controller.dart:64:30 • creation_with_non_type
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/presentation/controllers/auth_controller.dart:71:37 • deprecated_member_use
+  error • The name 'MainNavigation' isn't a class • lib/features/auth/presentation/controllers/auth_controller.dart:87:30 • creation_with_non_type
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/presentation/controllers/auth_controller.dart:94:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/presentation/controllers/auth_controller.dart:119:39 • deprecated_member_use
+  error • The method 'upgradeToPremium' isn't defined for the type 'AuthRepository' • lib/features/auth/presentation/controllers/auth_controller.dart:133:29 • undefined_method
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/auth/presentation/controllers/auth_controller.dart:138:39 • deprecated_member_use
+  error • The name 'LoginPage' isn't a class • lib/features/auth/presentation/controllers/auth_controller.dart:151:28 • creation_with_non_type
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/pages/dashboard_page.dart:109:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/dashboard/presentation/pages/dashboard_page.dart:140:47 • deprecated_member_use
+  error • Target of URI doesn't exist: '../data/repositories/gamification_repository.dart' • lib/features/gamification/presentation/controllers/gamification_controller.dart:4:8 • uri_does_not_exist
+  error • Undefined class 'GamificationRepository' • lib/features/gamification/presentation/controllers/gamification_controller.dart:7:9 • undefined_class
+  error • The method 'GamificationRepository' isn't defined for the type 'GamificationController' • lib/features/gamification/presentation/controllers/gamification_controller.dart:7:46 • undefined_method
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/gamification/presentation/controllers/gamification_controller.dart:68:41 • deprecated_member_use
+   info • Missing type annotation • lib/features/profile/presentation/pages/profile_page.dart:159:25 • strict_top_level_inference
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/pages/profile_page.dart:175:56 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/pages/profile_page.dart:244:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/profile/presentation/pages/profile_page.dart:246:56 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre • lib/features/profile/presentation/pages/profile_page.dart:450:40 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre • lib/features/profile/presentation/pages/profile_page.dart:450:55 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre • lib/features/profile/presentation/pages/profile_page.dart:454:40 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre • lib/features/profile/presentation/pages/profile_page.dart:454:55 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre • lib/features/profile/presentation/pages/profile_page.dart:458:40 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre • lib/features/profile/presentation/pages/profile_page.dart:458:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/subscription/presentation/pages/paywall_page.dart:180:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/transaction/presentation/pages/quick_log_page.dart:118:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/transaction/presentation/pages/quick_log_page.dart:214:68 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/features/transaction/presentation/pages/quick_log_page.dart:389:46 • deprecated_member_use
+
+34 issues found. (ran in 7.5s)
