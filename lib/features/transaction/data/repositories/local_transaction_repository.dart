@@ -28,6 +28,12 @@ class LocalTransactionRepository implements TransactionRepository {
   }
 
   @override
+  Future<void> deleteTransaction(String id) async {
+    final db = await _databaseHelper.database;
+    await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
+  }
+
+  @override
   Future<List<TransactionModel>> getTransactions() async {
     final db = await _databaseHelper.database;
     final List<Map<String, dynamic>> maps = await db.query('transactions');

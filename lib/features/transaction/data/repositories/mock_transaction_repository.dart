@@ -1,4 +1,3 @@
-
 import '../../domain/repositories/transaction_repository.dart';
 import '../../domain/models/transaction_model.dart';
 
@@ -20,6 +19,13 @@ class MockTransactionRepository implements TransactionRepository {
     if (index != -1) {
       _transactions[index] = transaction;
     }
+  }
+
+  @override
+  Future<void> deleteTransaction(String id) async {
+    // Simulate API delay
+    await Future.delayed(const Duration(milliseconds: 500));
+    _transactions.removeWhere((t) => t.id == id);
   }
 
   @override

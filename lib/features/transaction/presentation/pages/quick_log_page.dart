@@ -45,7 +45,7 @@ class QuickLogPage extends GetView<QuickLogController> {
                             ),
                             SizedBox(height: 4.h),
                             Text(
-                              'Let\'s log your n!',
+                              'Let\'s log your spending or income today',
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.textSecondary,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,14 +5,12 @@ import 'package:mindspend/features/transaction/domain/models/transaction_model.d
 import 'package:mindspend/features/transaction/data/repositories/local_transaction_repository.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../controllers/quick_log_controller.dart';
+import 'package:mindspend/features/dashboard/presentation/controllers/dashboard_controller.dart';
 
 class TransactionEditDialog extends StatefulWidget {
   final TransactionModel transaction;
 
-  const TransactionEditDialog({
-    super.key,
-    required this.transaction,
-  });
+  const TransactionEditDialog({super.key, required this.transaction});
 
   @override
   State<TransactionEditDialog> createState() => _TransactionEditDialogState();
@@ -29,8 +26,12 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
   @override
   void initState() {
     super.initState();
-    _amountController = TextEditingController(text: widget.transaction.amount.toString());
-    _noteController = TextEditingController(text: widget.transaction.note ?? '');
+    _amountController = TextEditingController(
+      text: widget.transaction.amount.toString(),
+    );
+    _noteController = TextEditingController(
+      text: widget.transaction.note ?? '',
+    );
     _selectedCategory = widget.transaction.category;
     _selectedEmotion = widget.transaction.emotion;
     _selectedDate = widget.transaction.date;
@@ -51,10 +52,7 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
             children: [
               Text(
                 'Edit Transaction',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20.h),
 
@@ -142,7 +140,9 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}'),
+                      Text(
+                        '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
+                      ),
                       Icon(Icons.calendar_today, size: 20.sp),
                     ],
                   ),
@@ -172,7 +172,22 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
                       child: Text('Cancel'),
                     ),
                   ),
-                  SizedBox(width: 12.w),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showDeleteConfirmation(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.errorRed,
+                      ),
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () async {
@@ -182,19 +197,28 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
                           category: _selectedCategory,
                           date: _selectedDate,
                           emotion: _selectedEmotion,
-                          note: _noteController.text.isEmpty ? null : _noteController.text,
+                          note: _noteController.text.isEmpty
+                              ? null
+                              : _noteController.text,
                         );
 
                         final repo = LocalTransactionRepository();
                         await repo.updateTransaction(updated);
-                        
+
+                        if (Get.isRegistered<DashboardController>()) {
+                          Get.find<DashboardController>().fetchTransactions();
+                        }
+
                         Get.back();
                         Get.snackbar('Success', 'Transaction updated');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryOrange,
                       ),
-                      child: Text('Save', style: TextStyle(color: Colors.white)),
+                      child: Text(
+                        'Save',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -202,6 +226,30 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+        title: Text('Delete Transaction'),
+        content: Text('Are you sure you want to delete this transaction?'),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: Text('Cancel')),
+          TextButton(
+            onPressed: () async {
+              final dashboardController = Get.find<DashboardController>();
+              await dashboardController.deleteTransaction(
+                widget.transaction.id,
+              );
+              Get.back(); // Close confirmation
+              Get.back(); // Close edit dialog
+              Get.snackbar('Success', 'Transaction deleted');
+            },
+            child: Text('Delete', style: TextStyle(color: AppColors.errorRed)),
+          ),
+        ],
       ),
     );
   }

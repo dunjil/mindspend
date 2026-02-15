@@ -83,4 +83,13 @@ class DashboardController extends GetxController {
     expenses.value = totalExpenses;
     net.value = totalIncome - totalExpenses;
   }
+
+  Future<void> deleteTransaction(String id) async {
+    try {
+      await _repository.deleteTransaction(id);
+      await fetchTransactions();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to delete transaction');
+    }
+  }
 }
