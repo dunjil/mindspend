@@ -124,15 +124,23 @@ class _CurrencyInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    if (newValue.selection.baseOffset == 0) {
+    if (newValue.text.isEmpty) {
       return newValue;
     }
 
-    double value = double.parse(newValue.text) / 100;
+    // Strip everything except digits
+    String digits = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+    if (digits.isEmpty) {
+      return oldValue.copyWith(
+        text: '',
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    }
+
+    double value = double.parse(digits) / 100;
     final profileController = Get.find<ProfileController>();
     final symbol = profileController.currencySymbol;
 
-    // Custom formatting to use selected symbol
     String newText = '$symbol${value.toStringAsFixed(2)}';
 
     return newValue.copyWith(
