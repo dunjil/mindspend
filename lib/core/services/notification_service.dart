@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz_data;
@@ -37,14 +38,15 @@ class NotificationService {
 
     // Create the high importance channel for Android
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'reminders',
-      'Daily Reminders',
-      description: 'Notifications to remind you to log your expenses',
+      'reminders_alarm',
+      'Daily Habit Reminders',
+      description: 'Insistent notifications to help you build a logging habit',
       importance: Importance.max,
       playSound: true,
       enableVibration: true,
       showBadge: true,
       enableLights: true,
+      audioAttributesUsage: AudioAttributesUsage.alarm,
     );
 
     await _notifications
@@ -96,16 +98,18 @@ class NotificationService {
       scheduledDate,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          'reminders',
-          'Daily Reminders',
+          'reminders_alarm',
+          'Daily Habit Reminders',
           channelDescription:
-              'Notifications to remind you to log your expenses',
+              'Insistent notifications to help you build a logging habit',
           importance: Importance.max,
           priority: Priority.max,
           ticker: 'ticker',
           styleInformation: BigTextStyleInformation(body),
           fullScreenIntent: true,
-          category: AndroidNotificationCategory.reminder,
+          category: AndroidNotificationCategory.alarm,
+          additionalFlags: Int32List.fromList([4]),
+          audioAttributesUsage: AudioAttributesUsage.alarm,
         ),
         iOS: const DarwinNotificationDetails(
           presentAlert: true,
@@ -128,15 +132,17 @@ class NotificationService {
       'This is how your mildly invasive reminder looks! 🚀',
       NotificationDetails(
         android: AndroidNotificationDetails(
-          'reminders',
-          'Daily Reminders',
+          'reminders_alarm',
+          'Daily Habit Reminders',
           importance: Importance.max,
           priority: Priority.max,
           styleInformation: const BigTextStyleInformation(
-            'This is a high priority notification to help you stay mindful of your spending.',
+            'This is a high priority insistent notification to help you stay mindful of your spending.',
           ),
           fullScreenIntent: true,
-          category: AndroidNotificationCategory.reminder,
+          category: AndroidNotificationCategory.alarm,
+          additionalFlags: Int32List.fromList([4]),
+          audioAttributesUsage: AudioAttributesUsage.alarm,
         ),
         iOS: const DarwinNotificationDetails(
           presentAlert: true,
