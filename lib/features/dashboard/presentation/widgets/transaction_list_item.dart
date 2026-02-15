@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../profile/presentation/controllers/profile_controller.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'package:mindspend/features/transaction/domain/models/transaction_model.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,7 @@ class TransactionListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencyFormat = NumberFormat.simpleCurrency(decimalDigits: 2);
+    final profileController = Get.find<ProfileController>();
     final dateFormat = DateFormat('MMM d');
 
     return GestureDetector(
@@ -73,12 +74,14 @@ class TransactionListItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  '-${currencyFormat.format(transaction.amount)}',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.expenseGray,
+                Obx(
+                  () => Text(
+                    '-${profileController.currencySymbol}${transaction.amount.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.expenseGray,
+                    ),
                   ),
                 ),
                 if (transaction.emotion != null)
@@ -100,34 +103,52 @@ class TransactionListItem extends StatelessWidget {
   String _getCategoryIcon(String id) {
     // Should reuse the list from controller, but simple switch here for now
     switch (id) {
-      case 'food': return '☕';
-      case 'transport': return '🚗';
-      case 'shopping': return '🛍️';
-      case 'bills': return '💡';
-      case 'fun': return '🎭';
-      case 'home': return '🏠';
-      default: return '💸';
+      case 'food':
+        return '☕';
+      case 'transport':
+        return '🚗';
+      case 'shopping':
+        return '🛍️';
+      case 'bills':
+        return '💡';
+      case 'fun':
+        return '🎭';
+      case 'home':
+        return '🏠';
+      default:
+        return '💸';
     }
   }
 
   String _getCategoryLabel(String id) {
     switch (id) {
-      case 'food': return 'Food';
-      case 'transport': return 'Transport';
-      case 'shopping': return 'Shopping';
-      case 'bills': return 'Bills';
-      case 'fun': return 'Fun';
-      case 'home': return 'Home';
-      default: return 'Other';
+      case 'food':
+        return 'Food';
+      case 'transport':
+        return 'Transport';
+      case 'shopping':
+        return 'Shopping';
+      case 'bills':
+        return 'Bills';
+      case 'fun':
+        return 'Fun';
+      case 'home':
+        return 'Home';
+      default:
+        return 'Other';
     }
   }
 
   String _getEmotionEmoji(String id) {
     switch (id) {
-      case 'good': return '😊';
-      case 'neutral': return '😐';
-      case 'bad': return '😞';
-      default: return '';
+      case 'good':
+        return '😊';
+      case 'neutral':
+        return '😐';
+      case 'bad':
+        return '😞';
+      default:
+        return '';
     }
   }
 }

@@ -6,6 +6,7 @@ import 'package:mindspend/features/transaction/data/repositories/local_transacti
 import '../../../../core/theme/app_colors.dart';
 import '../controllers/quick_log_controller.dart';
 import 'package:mindspend/features/dashboard/presentation/controllers/dashboard_controller.dart';
+import '../../../profile/presentation/controllers/profile_controller.dart';
 
 class TransactionEditDialog extends StatefulWidget {
   final TransactionModel transaction;
@@ -57,14 +58,16 @@ class _TransactionEditDialogState extends State<TransactionEditDialog> {
               SizedBox(height: 20.h),
 
               // Amount
-              TextField(
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                  prefixText: '\$',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+              Obx(
+                () => TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Amount',
+                    prefixText: Get.find<ProfileController>().currencySymbol,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
                   ),
                 ),
               ),

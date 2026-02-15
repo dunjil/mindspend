@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindspend/features/transaction/domain/models/transaction_model.dart';
 import 'package:mindspend/features/transaction/data/repositories/local_transaction_repository.dart';
@@ -12,12 +11,17 @@ class DashboardController extends GetxController {
   final RxDouble expenses = 0.0.obs;
   final RxDouble net = 0.0.obs;
   final RxBool isLoading = false.obs;
-  final Rx<DateTimeRange?> selectedDateRange = Rx<DateTimeRange?>(null);
+  final Rx<DateTime> startDate = DateTime.now()
+      .subtract(const Duration(days: 7))
+      .obs;
+  final Rx<DateTime> endDate = DateTime.now().obs;
   final RxList<DateTime> activeDays = <DateTime>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+    ever(startDate, (_) => fetchTransactions());
+    ever(endDate, (_) => fetchTransactions());
     fetchTransactions();
   }
 
@@ -37,19 +41,13 @@ class DashboardController extends GetxController {
 
       var filteredData = allData;
 
-      // Filter by date range if selected for the Dashboard summary
-      if (selectedDateRange.value != null) {
-        filteredData = filteredData.where((t) {
-          return t.date.isAfter(
-                selectedDateRange.value!.start.subtract(
-                  const Duration(seconds: 1),
-                ),
-              ) &&
-              t.date.isBefore(
-                selectedDateRange.value!.end.add(const Duration(days: 1)),
-              );
-        }).toList();
-      }
+      // Filter by date range
+      filteredData = filteredData.where((t) {
+        return t.date.isAfter(
+              startDate.value.subtract(const Duration(seconds: 1)),
+            ) &&
+            t.date.isBefore(endDate.value.add(const Duration(days: 1)));
+      }).toList();
 
       // Sort by date descending
       filteredData.sort((a, b) => b.date.compareTo(a.date));
@@ -60,11 +58,6 @@ class DashboardController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  void setDateRange(DateTimeRange? range) {
-    selectedDateRange.value = range;
-    fetchTransactions();
   }
 
   void calculateSummary() {

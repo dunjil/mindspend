@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mindspend/features/transaction/domain/models/transaction_model.dart';
 import 'package:mindspend/features/transaction/data/repositories/local_transaction_repository.dart';
@@ -10,11 +9,16 @@ class InsightsController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxMap<String, double> categoryTotals = <String, double>{}.obs;
   final RxMap<String, int> emotionCounts = <String, int>{}.obs;
-  final Rx<DateTimeRange?> selectedDateRange = Rx<DateTimeRange?>(null);
+  final Rx<DateTime> startDate = DateTime.now()
+      .subtract(const Duration(days: 7))
+      .obs;
+  final Rx<DateTime> endDate = DateTime.now().obs;
 
   @override
   void onInit() {
     super.onInit();
+    ever(startDate, (_) => loadInsights());
+    ever(endDate, (_) => loadInsights());
     loadInsights();
   }
 
@@ -23,19 +27,13 @@ class InsightsController extends GetxController {
     try {
       var data = await _repository.getTransactions();
 
-      // Filter by date range if selected
-      if (selectedDateRange.value != null) {
-        data = data.where((t) {
-          return t.date.isAfter(
-                selectedDateRange.value!.start.subtract(
-                  const Duration(seconds: 1),
-                ),
-              ) &&
-              t.date.isBefore(
-                selectedDateRange.value!.end.add(const Duration(days: 1)),
-              );
-        }).toList();
-      }
+      // Filter by date range
+      data = data.where((t) {
+        return t.date.isAfter(
+              startDate.value.subtract(const Duration(seconds: 1)),
+            ) &&
+            t.date.isBefore(endDate.value.add(const Duration(days: 1)));
+      }).toList();
 
       transactions.assignAll(data);
       calculateCategoryTotals();
@@ -45,11 +43,6 @@ class InsightsController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  void setDateRange(DateTimeRange? range) {
-    selectedDateRange.value = range;
-    loadInsights();
   }
 
   void calculateCategoryTotals() {

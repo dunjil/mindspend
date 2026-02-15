@@ -127,82 +127,42 @@ class DashboardPage extends GetView<DashboardController> {
           context: context,
           firstDate: DateTime(2020),
           lastDate: DateTime.now(),
-          initialDateRange:
-              controller.selectedDateRange.value ??
-              DateTimeRange(
-                start: DateTime.now().subtract(const Duration(days: 7)),
-                end: DateTime.now(),
-              ),
-          builder: (context, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(
-                  primary: AppColors.primaryBlue,
-                  onPrimary: Colors.white,
-                  onSurface: AppColors.textPrimary,
-                ),
-              ),
-              child: child!,
-            );
-          },
+          initialDateRange: DateTimeRange(
+            start: controller.startDate.value,
+            end: controller.endDate.value,
+          ),
         );
         if (picked != null) {
-          controller.setDateRange(picked);
+          controller.startDate.value = picked.start;
+          controller.endDate.value = picked.end;
         }
       },
-      child: Obx(() {
-        final range = controller.selectedDateRange.value;
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      child: Obx(
+        () => Container(
+          padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
             color: AppColors.bgSecondary,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(
-              color: range != null
-                  ? AppColors.primaryOrange.withOpacity(0.5)
-                  : AppColors.bgTertiary,
-            ),
+            border: Border.all(color: AppColors.bgTertiary),
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.date_range,
-                size: 16.sp,
-                color: range != null
-                    ? AppColors.primaryOrange
-                    : AppColors.textTertiary,
+                size: 20.sp,
+                color: AppColors.primaryOrange,
               ),
               SizedBox(width: 8.w),
               Text(
-                range != null
-                    ? '${dateFormat.format(range.start)} - ${dateFormat.format(range.end)}'
-                    : 'All Time',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: range != null
-                      ? AppColors.primaryOrange
-                      : AppColors.textSecondary,
-                  fontWeight: range != null
-                      ? FontWeight.w600
-                      : FontWeight.normal,
-                ),
+                '${dateFormat.format(controller.startDate.value)} - ${dateFormat.format(controller.endDate.value)}',
+                style: TextStyle(fontSize: 14.sp, color: AppColors.textPrimary),
               ),
-              if (range != null) ...[
-                SizedBox(width: 8.w),
-                GestureDetector(
-                  onTap: () => controller.setDateRange(null),
-                  child: Icon(
-                    Icons.close,
-                    size: 14.sp,
-                    color: AppColors.primaryOrange,
-                  ),
-                ),
-              ],
+              SizedBox(width: 8.w),
+              Icon(Icons.edit, size: 16.sp, color: AppColors.textTertiary),
             ],
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }
